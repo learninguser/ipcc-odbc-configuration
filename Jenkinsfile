@@ -20,24 +20,26 @@ pipeline {
       
       stage ('Retrieve secret') {
           steps {
-              script {
-                  
-                  withCredentials([[
-                      $class: 'AmazonWebServicesCredentialsBinding',
-                      credentialsId: 'aws-sm-getsecretvalue',
-                      accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-                      secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-                          
-                          def rds_password = sh(script: """aws secretsmanager get-secret-value --region ${aws_region} \
-                          --secret-id ${mysecret} | jq -r .SecretString | jq -r .password""", returnStdout: true).trim()
-                          
-                          env.password=rds_password
-                          echo "RDS DB Password: ${password}"
+                script {
+                    
+                    withCredentials([[
+                        $class: 'AmazonWebServicesCredentialsBinding',
+                        credentialsId: 'aws-sm-getsecretvalue',
+                        accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                        secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+                            
+                        def rds_password = sh(script: """aws secretsmanager get-secret-value --region ${aws_region} \
+                        --secret-id ${mysecret} | jq -r .SecretString | jq -r .password""", returnStdout: true).trim()
+                        
+                        echo "${env.fpath}"
+
+                        env.password=rds_password
+                        echo "RDS DB Password: ${password}"
             
-                  }
-              }
-          }
-      }
+                    }
+                }
+            }
+        }
       
       stage('Run Ansible Playbook') {
           steps {
