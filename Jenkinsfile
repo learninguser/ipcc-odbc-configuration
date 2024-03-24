@@ -11,7 +11,7 @@ pipeline {
       mysecret = "rds!db-e6fc34e8-646b-4638-a322-463cdf803f7e"
       aws_region = 'us-east-1'
       fpath="${WORKSPACE}"
-      dsn = "ipcc-rds-db"
+      dsn = "asterisk-ipcc-db"
   }
   
   agent any
