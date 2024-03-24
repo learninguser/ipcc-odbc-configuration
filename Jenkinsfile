@@ -42,7 +42,7 @@ pipeline {
       stage('Run Ansible Playbook') {
           steps {
               withEnv(["fpath=${env.fpath}","password=${env.password}"]) {
-                  sh 'ansible-playbook -i hosts updatedb.yaml'
+                  sh 'ansible-playbook -i inventory updatedb.yaml'
               }
           }
       }
@@ -52,15 +52,15 @@ pipeline {
               script {
                  
                   withEnv(["fpath=${env.fpath}"]) {
-                  sh 'ansible-playbook -i hosts check_uptime.yaml'
+                  sh 'ansible-playbook -i inventory check_uptime.yaml'
                  }
                   
                   def prev_uptime=getUptime()
                  
-                  sh 'ansible-playbook -i hosts reboot_server.yaml'
+                  sh 'ansible-playbook -i inventory reboot_server.yaml'
                  
                   withEnv(["fpath=${env.fpath}"]) {
-                  sh 'ansible-playbook -i hosts check_uptime.yaml'
+                  sh 'ansible-playbook -i inventory check_uptime.yaml'
                  }
                  
                   def curr_uptime=getUptime()
