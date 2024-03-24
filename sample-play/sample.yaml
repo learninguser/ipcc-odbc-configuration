@@ -1,0 +1,14 @@
+---
+- hosts: asteriskec2
+  gather_facts: yes
+  tasks:
+    - name: Print Hello World
+      shell: echo "Hello World"
+      register: hello_output
+
+    - name: Print captured output
+      debug: var=hello_output.stdout
+
+    - name: Print with custom message
+      debug: 
+        msg: "The captured output was : {{ hello_output.stdout }}"

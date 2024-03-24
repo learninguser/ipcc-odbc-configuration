@@ -1,0 +1,17 @@
+---
+- name: Check connectivity with RDS MySQL DB
+  hosts: asteriskec2
+  vars:
+    dsn: asterisk-ipcc-db
+    username: admin
+    password: '!UO$U_4gEe4F:Wj]ABjiGQxY9MIu'
+  tasks:
+    - name : Check connectivity with database
+      #shell: echo "quit" | isql -v "{{ dsn }}" "{{ username }}" '!UO$U_4gEe4F:Wj]ABjiGQxY9MIu'
+      shell: echo "quit" | isql -v "{{ dsn }}" "{{ username }}" '{{ password }}'
+      register: output
+
+    - name: Display Output
+      debug:
+        msg: "{{ output.stdout }}"
+...

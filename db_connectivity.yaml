@@ -1,0 +1,16 @@
+---
+- name: Check connectivity with RDS MySQL DB
+  hosts: asteriskec2
+  vars:
+    dsn: "{{ lookup('env','dsn') }}"
+    username: "{{ lookup('env','username') }}"
+    password: "{{ lookup('env','password') }}"
+  tasks:
+    - name : Check connectivity with database
+      shell: echo "quit" | isql -v "{{ dsn }}" "{{ username }}" '{{ password }}'
+      register: output
+
+    - name: Display Output
+      debug:
+        msg: "{{ output.stdout }}"
+...

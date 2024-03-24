@@ -1,0 +1,31 @@
+---
+- name: Check Asterisk Server Uptime
+  hosts: asteriskec2
+  gather_facts: yes
+  tasks:
+    - name: Get uptime in minutes
+      shell: echo $(awk '{print $1}' /proc/uptime) / 60 | bc
+      register: uptime_output
+
+    - name: Display uptime in minutes
+      debug: 
+        msg: "Current Uptime is : {{ uptime_output.stdout }} min"
+
+    - name: Register local variable
+      set_fact:
+        uptime: "{{ uptime_output.stdout }}"
+            
+
+- name: Update uptime in result.txt
+  hosts: hostmachine
+  vars:
+    fpath: "{{ lookup('env','fpath') }}"
+  tasks:
+    - name: Update uptime in result.txt
+      lineinfile:
+        path: "{{ fpath }}/result.txt"
+        regexp: '^uptime_in_min=(.*)$'
+        line: "uptime_in_min={{ hostvars['asteriskec2']['uptime'] }}"
+        backrefs: yes
+      become_user: jenkins
+...  

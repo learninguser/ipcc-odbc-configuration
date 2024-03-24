@@ -1,0 +1,33 @@
+---
+- name: Update odbc.ini file with latest password to connect AWS MySQL RDS
+  hosts: hostmachine
+  vars: 
+    fpath: "{{ lookup('env','fpath') }}"
+    password: "{{ lookup('env','password') }}"
+  tasks:
+  - name: Update odbc.ini file with latest password to connect AWS MySQL RDS
+    lineinfile:
+      path: "{{ fpath }}/odbc.ini"
+      regexp: '^Password=(.*)$'
+      line: "Password={{ password }}"
+      backrefs: yes
+    become_user: jenkins
+
+- name: Copy odbc.ini file to asterisk server (ec2 instance)
+  hosts: asteriskec2
+  vars:
+    target_path: "/etc"
+    fpath: "{{ lookup('env','fpath') }}"
+  tasks:
+  - name: Copy odbc.ini file to asterisk server (ec2 instance)    
+    copy:
+      src: "{{ fpath }}/odbc.ini"
+      dest: "{{ target_path }}/odbc.ini"
+        #remote_src: yes
+      owner: root
+      group: root
+      mode: '0644'
+    ignore_errors: yes    
+        #become: yes
+        #become_user: ansible_user
+...

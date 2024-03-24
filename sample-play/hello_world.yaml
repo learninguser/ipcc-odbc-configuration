@@ -1,0 +1,16 @@
+---
+- hosts: asteriskec2
+  tasks:
+  - name: Set Hello World message
+    set_fact:
+      hello_world_message: "Hello World from Ansible!"
+
+  - name: Print Hello World message
+    debug:
+      msg: "{{ hello_world_message }}"
+
+  - name: Set Jenkins environment variable
+    set_jenkins_env_var:
+      name: HELLO_WORLD_MESSAGE
+      value: "{{ hello_world_message }}"
+...
