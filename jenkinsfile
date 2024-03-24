@@ -18,20 +18,6 @@ pipeline {
  
   stages {
       
-      stage ('Clean Up Workspace') {
-          steps {
-              cleanWs()
-          }
-      }
-      
-      stage('SCM Checkout') {
-            steps {
-                
-                git branch: 'main', url: 'https://github.com/learninguser/ipcc-odbc-configuration.git'
-                
-            }
-        }
-      
       stage ('Retrieve secret') {
           steps {
               script {
