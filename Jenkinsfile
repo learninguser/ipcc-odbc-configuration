@@ -93,7 +93,7 @@ pipeline {
       stage('Check DB Connectivity') {
           steps {
               withEnv(["dsn=${env.dsn}","username=${env.username}","password=${env.password}"]) {
-                  sh 'ansible-playbook -i hosts db_connectivity.yaml'
+                  sh 'ansible-playbook -i inventory db_connectivity.yaml'
               }
           }  
       }
