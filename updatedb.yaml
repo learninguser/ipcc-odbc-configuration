@@ -1,5 +1,5 @@
 ---
-- name: Update odbc.ini file with latest password to connect AWS MySQL RDS
+- name: Update odbc.ini file with latest password and copy to asterisk server
   hosts: hostmachine
   vars: 
     fpath: "{{ lookup('env','fpath') }}"
