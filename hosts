@@ -1,3 +1,0 @@
-[webservers]
-hostmachine ansible_host=172.31.41.225
-asteriskec2 ansible_host=172.31.33.89 ansible_user=root
