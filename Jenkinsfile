@@ -8,7 +8,7 @@ pipeline {
   
   environment {
       username = "admin"
-      mysecret = "rds!db-e6fc34e8-646b-4638-a322-463cdf803f7e"
+      mysecret = "rds!db-dbe838e2-f474-4249-b44f-8dc56ec605c4"
       aws_region = 'us-east-1'
       fpath="${WORKSPACE}"
       dsn = "asterisk-ipcc-db"
